@@ -13,7 +13,9 @@
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <spring.version>3.0.5.RELEASE</spring.version>
 	</properties>
+
 	<repositories>
 		<repository>
 			<id>github-releases</id>
@@ -63,7 +65,54 @@
 			<groupId>org.dspace.dependencies</groupId>
 			<artifactId>dspace-geoip</artifactId>
 			<version>1.2.3</version>
-		</dependency>		
+		</dependency>
+        <dependency>
+			<groupId>commons-dbcp</groupId>
+			<artifactId>commons-dbcp</artifactId>
+			<version>1.2.2</version>
+		</dependency>
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>com.springsource.slf4j.api</artifactId>
+			<version>1.5.3</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>com.springsource.slf4j.log4j</artifactId>
+			<version>1.5.3</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>org.springframework.beans</artifactId>
+			<version>${spring.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>org.springframework.context</artifactId>
+			<version>${spring.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>org.springframework.context.support</artifactId>
+			<version>${spring.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>org.springframework.core</artifactId>
+			<version>${spring.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-jdbc</artifactId>
+			<version>${spring.version}</version>
+		</dependency>
+        <dependency>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
+            <version>5.1.9</version>
+        </dependency>
 	</dependencies>
 
 	<build>
@@ -71,6 +120,9 @@
 		<resources>
 			<resource>
 				<directory>${basedir}/multilang</directory>
+			</resource>
+            <resource>
+				<directory>src/jvm/resources</directory>
 			</resource>
 		</resources>
 		<plugins>
