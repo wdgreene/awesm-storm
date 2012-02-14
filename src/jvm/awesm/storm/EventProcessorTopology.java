@@ -1,9 +1,6 @@
 package awesm.storm;
 
-import backtype.storm.task.ShellBolt;
-import backtype.storm.topology.IRichBolt;
-import backtype.storm.topology.OutputFieldsDeclarer;
-import backtype.storm.tuple.Fields;
+import awesm.storm.bolt.BotFlagBolt;
 import awesm.storm.bolt.GeoBolt;
 import awesm.storm.bolt.ThrottlingGeoCountryBolt;
 import awesm.storm.spout.RandomClickEventSpout;
@@ -14,18 +11,6 @@ import backtype.storm.StormSubmitter;
 import backtype.storm.topology.TopologyBuilder;
 
 public class EventProcessorTopology {
-
-    public static class BotFlagBolt extends ShellBolt implements IRichBolt {
-
-        public BotFlagBolt() {
-        	super("php", "botflag.php");
-        }
-
-        @Override
-        public void declareOutputFields(OutputFieldsDeclarer declarer) {
-            declarer.declare(new Fields("bot-processed-event"));
-        }
-    }
     
     public static void main(String[] args) throws Exception {
         
