@@ -5,17 +5,14 @@ import backtype.storm.task.TopologyContext;
 import backtype.storm.topology.IRichBolt;
 import backtype.storm.topology.OutputFieldsDeclarer;
 import backtype.storm.tuple.Tuple;
-
 import org.codehaus.jackson.JsonNode;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.jdbc.core.simple.SimpleJdbcTemplate;
-
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
-
 import javax.sql.DataSource;
 
 public class ThrottlingGeoCountryBolt implements IRichBolt {
@@ -106,7 +103,7 @@ public class ThrottlingGeoCountryBolt implements IRichBolt {
 
     }
 
-    public class Key {
+    public static class Key {
 
         private int _accountID;
         private long _redirectionID;
@@ -135,9 +132,7 @@ public class ThrottlingGeoCountryBolt implements IRichBolt {
         }
     }
 
-
-    // this method should be static (had trouble!!!)
-    public Key fromKey(String strKey)
+    public static Key fromKey(String strKey)
     {
         String[] pieces = strKey.split(":");
         return new Key(Integer.parseInt(pieces[0]), Long.parseLong(pieces[1]), pieces[2]);
