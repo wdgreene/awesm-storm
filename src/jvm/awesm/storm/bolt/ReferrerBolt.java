@@ -37,20 +37,24 @@ public class ReferrerBolt implements IRichBolt {
 		try {
 			JsonNode rootNode = m.readValue(jsonText, JsonNode.class);
 
-			JsonNode referrerNode = rootNode.path("referrer");
+			JsonNode referrerNode = rootNode.path("http_referer");
 	        String referrer = referrerNode.getTextValue();
 
 	        System.out.println("Referrer is " + referrer);
 
-            URL referrerURL = new URL(referrer);
+            String referrerDomain = null;
+            if (referrer != null)
+            {
+                URL referrerURL = new URL(referrer);
 
-            String hostname =  referrerURL.getHost();
-            String protocol = referrerURL.getProtocol();
-            String referrerDomain = protocol + "://" + hostname;
+                String hostname =  referrerURL.getHost();
+                String protocol = referrerURL.getProtocol();
+                referrerDomain = protocol + "://" + hostname;
+            }
 
             System.out.println("Referrer Domain: " + referrerDomain);
 
-	        ((ObjectNode)rootNode).put("referrer_domain", referrerDomain);
+	        ((ObjectNode)rootNode).put("http_referer_domain", referrerDomain);
 
 	        newJsonText = m.writeValueAsString(rootNode);
 

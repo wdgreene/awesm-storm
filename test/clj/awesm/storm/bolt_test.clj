@@ -18,18 +18,18 @@
        })
           results (complete-topology cluster
               topology
-              :mock-sources {"1" [["{'http_user_agent': 'Mozilla/5.0 (compatible; MSIE 6.0; Windows NT 5.1)', 'bot_flag': 0}"]
-                                  ["{'http_user_agent': 'Mozilla/5.0 (compatible; MSIE 6.0; Windows NT 5.1)', 'bot_flag': 1}"]
-                                  ["{'http_user_agent': 'AppEngine-Google', 'bot_flag': 0}"]]}
+              :mock-sources {"1" [["{'http_user_agent': 'Mozilla/5.0 (compatible; MSIE 6.0; Windows NT 5.1)', 'bot_flag': '0'}"]
+                                  ["{'http_user_agent': 'Mozilla/5.0 (compatible; MSIE 6.0; Windows NT 5.1)', 'bot_flag': '1'}"]
+                                  ["{'http_user_agent': 'AppEngine-Google', 'bot_flag': '0'}"]]}
               :storm-conf {TOPOLOGY-DEBUG true
                                 TOPOLOGY-WORKERS 2})]
-      (is (ms= [["{'http_user_agent': 'Mozilla/5.0 (compatible; MSIE 6.0; Windows NT 5.1)', 'bot_flag': 0}"]
-                ["{'http_user_agent': 'Mozilla/5.0 (compatible; MSIE 6.0; Windows NT 5.1)', 'bot_flag': 1}"]
-                ["{'http_user_agent': 'AppEngine-Google', 'bot_flag': 0}"]]
+      (is (ms= [["{'http_user_agent': 'Mozilla/5.0 (compatible; MSIE 6.0; Windows NT 5.1)', 'bot_flag': '0'}"]
+                ["{'http_user_agent': 'Mozilla/5.0 (compatible; MSIE 6.0; Windows NT 5.1)', 'bot_flag': '1'}"]
+                ["{'http_user_agent': 'AppEngine-Google', 'bot_flag': '0'}"]]
             (read-tuples results "1")))
-      (is (ms= [["{\"http_user_agent\":\"Mozilla\\/5.0 (compatible; MSIE 6.0; Windows NT 5.1)\",\"bot_flag\":0,\"new_bot_flag\":0}"]
-                ["{\"http_user_agent\":\"Mozilla\\/5.0 (compatible; MSIE 6.0; Windows NT 5.1)\",\"bot_flag\":1,\"new_bot_flag\":1}"]
-                ["{\"http_user_agent\":\"AppEngine-Google\",\"bot_flag\":0,\"new_bot_flag\":1}"]]
+      (is (ms= [["{\"http_user_agent\":\"Mozilla\\/5.0 (compatible; MSIE 6.0; Windows NT 5.1)\",\"bot_flag\":\"0\",\"new_bot_flag\":\"0\"}"]
+                ["{\"http_user_agent\":\"Mozilla\\/5.0 (compatible; MSIE 6.0; Windows NT 5.1)\",\"bot_flag\":\"1\",\"new_bot_flag\":\"1\"}"]
+                ["{\"http_user_agent\":\"AppEngine-Google\",\"bot_flag\":\"0\",\"new_bot_flag\":\"1\"}"]]
             (read-tuples results "2")))
       ))))
 
@@ -43,12 +43,15 @@
          })
             results (complete-topology cluster
               topology
-              :mock-sources {"1" [["{'referrer': 'http://test.awe.sm/zomg.php?query=val#anchor'}"]]}
+              :mock-sources {"1" [["{'http_referer': 'http://test.awe.sm/zomg.php?query=val#anchor'}"]
+                                  ["{'http_referer': null}"]]}
               :storm-conf {TOPOLOGY-DEBUG true
                            TOPOLOGY-WORKERS 2})]
-        (is (ms= [["{'referrer': 'http://test.awe.sm/zomg.php?query=val#anchor'}"]]
+        (is (ms= [["{'http_referer': 'http://test.awe.sm/zomg.php?query=val#anchor'}"]
+                  ["{'http_referer': null}"]]
               (read-tuples results "1")))
-        (is (ms= [["{\"referrer\":\"http://test.awe.sm/zomg.php?query=val#anchor\",\"referrer_domain\":\"http://test.awe.sm\"}"]]
+        (is (ms= [["{\"http_referer\":\"http://test.awe.sm/zomg.php?query=val#anchor\",\"http_referer_domain\":\"http://test.awe.sm\"}"]
+                  ["{\"http_referer\":null,\"http_referer_domain\":null}"]]
               (read-tuples results "2")))
         ))))
 
