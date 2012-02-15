@@ -107,7 +107,7 @@
 					</descriptorRefs>
 					<archive>
 						<manifest>
-							<mainClass></mainClass>
+							<mainClass>awesm.storm.EventProcessorTopology</mainClass>
 						</manifest>
 					</archive>
 				</configuration>
