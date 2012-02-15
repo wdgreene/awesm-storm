@@ -3,21 +3,22 @@ package awesm.storm;
 import awesm.storm.bolt.BotFlagBolt;
 import awesm.storm.bolt.GeoBolt;
 import awesm.storm.bolt.ThrottlingGeoCountryBolt;
-import awesm.storm.spout.RandomClickEventSpout;
+import awesm.storm.scheme.StringScheme;
 import awesm.storm.bolt.ReferrerBolt;
 import backtype.storm.Config;
 import backtype.storm.LocalCluster;
 import backtype.storm.StormSubmitter;
 import backtype.storm.topology.TopologyBuilder;
+import com.rapportive.storm.amqp.SharedQueueWithBinding;
+import com.rapportive.storm.spout.AMQPSpout;
 
 public class EventProcessorTopology {
     
     public static void main(String[] args) throws Exception {
         
         TopologyBuilder builder = new TopologyBuilder();
-        
-        builder.setSpout("spout", new RandomClickEventSpout(), 1);
 
+        builder.setSpout("spout", new AMQPSpout("127.0.0.1", 5672, "guest", "guest", "/", new SharedQueueWithBinding("fan_2", "test_fanout", "#"), new StringScheme()));
         builder.setBolt("bot", new BotFlagBolt())
         		.shuffleGrouping("spout");
         builder.setBolt("referrer", new ReferrerBolt())
